@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'pages/calculator.dart';
-import 'pages/about.dart';
+import 'package:CalculatorBasic/Bloc/CalculatorBloc.dart';
+import 'Pages/Calculator.dart';
+import 'Pages/About.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,17 +15,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Simple Calculator',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CalculatorBloc>(create: (_) => CalculatorBloc()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Simple Calculator',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: "Simple Calculator"),
+        routes: {
+          '/calculator': (context) => const Calculator(),
+          '/about': (context) => const About(),
+        },
       ),
-      home: const MyHomePage(title: "Simple Calculator"),
-      routes: {
-        '/calculator': (context) => const Calculator(),
-        '/about': (context) => const About(),
-      },
     );
   }
 }
